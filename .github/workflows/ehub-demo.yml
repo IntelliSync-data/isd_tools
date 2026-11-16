@@ -25,7 +25,7 @@
             if [ ! -d /opt/addons-system/isd_tools ]; then
               sudo mkdir -p /opt/addons-system
               sudo chown odoo:odoo /opt/addons-system
-              sudo -u odoo git clone git@github-odoo:IntelliSync-data/tools.git /opt/addons-system/isd_tools
+              sudo -u odoo git clone git@github-odoo:IntelliSync-data/isd_tools.git /opt/addons-system/isd_tools
               cd /opt/addons-system/isd_tools && git checkout ehub
             else
               # ubuntu only have permission to run git commands, so we need to use sudo -u odoo to run git commands as odoo user
