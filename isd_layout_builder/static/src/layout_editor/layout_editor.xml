@@ -6,6 +6,17 @@
             <t t-else="">
                 <t t-set="frameList" t-value="frames"/>
                 <t t-set="current" t-value="selected"/>
+                <div class="o_isd_le_toolbar">
+                    <span class="text-muted">Zoom</span>
+                    <div class="btn-group btn-group-sm" role="group">
+                        <t t-foreach="zooms" t-as="zoom" t-key="zoom">
+                            <button type="button" class="btn" t-att-data-zoom="zoom"
+                                    t-att-class="state.zoom === zoom ? 'btn-primary' : 'btn-secondary'"
+                                    t-on-click="() => this.setZoom(zoom)"><t t-esc="zoom"/>×</button>
+                        </t>
+                    </div>
+                </div>
+                <div t-ref="viewport" class="o_isd_le_viewport" t-att-class="{ o_isd_le_zoomed: state.zoom > 1 }">
                 <svg t-ref="svg" tabindex="0" class="o_isd_le_canvas"
                      t-att-width="display.width" t-att-height="display.height"
                      t-attf-viewBox="0 0 {{vbw}} {{vbh}}"
@@ -51,6 +62,7 @@
                         </t>
                     </t>
                 </svg>
+                </div>
 
                 <div class="o_isd_le_info">
                     <t t-if="current">
@@ -66,7 +78,7 @@
                 <div t-if="editable" class="o_isd_le_help text-muted">
                     Drag to move, drag a handle to resize. Edges stick to the canvas, the print margins and other
                     frames. Shift: keep proportions (straight line when moving). Alt: resize from the centre.
-                    Ctrl/⌘: no snapping. Arrow keys: nudge (Shift: ×10). QR frames stay square.
+                    Ctrl/⌘: no snapping. Arrow keys: nudge (Shift: ×10). Keys 1, 2, 4: zoom. QR frames stay square.
                 </div>
             </t>
         </div>

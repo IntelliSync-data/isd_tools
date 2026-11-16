@@ -61,6 +61,7 @@ class TestLayoutEditor(HttpCase):
                         'isd_layout_editor_tour', login='admin')
         layout.invalidate_recordset()
         layout.system_ids.invalidate_recordset()
+        # Dragged at 2x zoom: the stored values are still in viewBox units.
         # Dragged down, and a small sideways slip snapped back into line
         self.assertEqual(first.x, x0)
         self.assertGreater(first.y, y0 + 5)

@@ -21,6 +21,15 @@ registry.category("web_tour.tours").add("isd_layout_editor_tour", {
             trigger: ".o_isd_layout_editor .o_isd_le_frame",
         },
         {
+            content: "Zoom to 2x",
+            trigger: ".o_isd_le_toolbar button[data-zoom='2']",
+            run: "click",
+        },
+        {
+            content: "The canvas is drawn twice as large, in a scrolling window",
+            trigger: ".o_isd_le_viewport.o_isd_le_zoomed .o_isd_le_canvas",
+        },
+        {
             content: "Drag photo 1 down, slipping 3px sideways",
             trigger: ".o_isd_layout_editor .o_isd_le_frame",
             run() {

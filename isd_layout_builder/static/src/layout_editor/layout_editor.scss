@@ -1,4 +1,24 @@
 .o_isd_layout_editor {
+    .o_isd_le_toolbar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+    .o_isd_le_viewport {
+        max-width: 100%;
+        overflow: auto;
+    }
+    // Zoomed in, the canvas is larger than the page: scroll inside a window
+    .o_isd_le_zoomed {
+        max-height: 75vh;
+        border: 1px solid $border-color;
+
+        .o_isd_le_canvas {
+            max-width: none;
+            border: 0;
+        }
+    }
     .o_isd_le_canvas {
         display: block;
         max-width: 100%;

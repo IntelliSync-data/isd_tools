@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-16 14:20+0000\n"
-"PO-Revision-Date: 2026-11-16 14:20+0000\n"
+"POT-Creation-Date: 2026-11-16 15:06+0000\n"
+"PO-Revision-Date: 2026-11-16 15:06+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -104,7 +104,7 @@ msgstr ""
 
 #. module: isd_layout_builder
 #: model:ir.actions.act_window,name:isd_layout_builder.action_isd_api_token
-#: model:ir.ui.menu,name:isd_layout_builder.menu_isd_api_token
+#: model:isd.tool.link,name:isd_layout_builder.isd_tool_layout_builder_link_api
 msgid "API Documentation"
 msgstr "Tài liệu API"
 
@@ -195,7 +195,6 @@ msgstr "DPI"
 
 #. module: isd_layout_builder
 #: model:ir.actions.act_window,name:isd_layout_builder.action_isd_layout_type
-#: model:ir.ui.menu,name:isd_layout_builder.menu_isd_layout_type
 msgid "Default Layouts"
 msgstr "Bố cục mặc định"
 
@@ -227,8 +226,8 @@ msgstr "Tải PNG"
 msgid ""
 "Drag to move, drag a handle to resize. Edges stick to the canvas, the print margins and other\n"
 "                    frames. Shift: keep proportions (straight line when moving). Alt: resize from the centre.\n"
-"                    Ctrl/⌘: no snapping. Arrow keys: nudge (Shift: ×10). QR frames stay square."
-msgstr "Kéo để di chuyển, kéo tay nắm để đổi kích thước. Mép ô tự hít vào canvas, lề in và các ô khác. Shift: giữ tỉ lệ (đi thẳng khi di chuyển). Alt: đổi kích thước từ tâm. Ctrl/⌘: tắt hít. Phím mũi tên: nhích (Shift: ×10). Ô QR luôn vuông."
+"                    Ctrl/⌘: no snapping. Arrow keys: nudge (Shift: ×10). Keys 1, 2, 4: zoom. QR frames stay square."
+msgstr "Kéo để di chuyển, kéo tay nắm để đổi kích thước. Mép ô tự hít vào canvas, lề in và các ô khác. Shift: giữ tỉ lệ (đi thẳng khi di chuyển). Alt: đổi kích thước từ tâm. Ctrl/⌘: tắt hít. Phím mũi tên: nhích (Shift: ×10). Phím 1, 2, 4: thu phóng. Ô QR luôn vuông."
 
 #. module: isd_layout_builder
 #: model_terms:ir.ui.view,arch_db:isd_layout_builder.view_isd_api_token_form
@@ -325,7 +324,7 @@ msgid "Last Updated on"
 msgstr "Cập nhật lúc"
 
 #. module: isd_layout_builder
-#: model:ir.ui.menu,name:isd_layout_builder.menu_isd_layout_builder_root
+#: model:isd.tool,name:isd_layout_builder.isd_tool_layout_builder
 msgid "Layout Builder"
 msgstr "Trình tạo bố cục"
 
@@ -478,6 +477,13 @@ msgid "This replaces every frame with a sample layout. Continue?"
 msgstr "Thao tác này thay toàn bộ các ô bằng một layout mẫu. Tiếp tục?"
 
 #. module: isd_layout_builder
+#: model:isd.tool,description:isd_layout_builder.isd_tool_layout_builder
+msgid ""
+"Thiết kế layout in cho photobooth: kéo thả, resize các ô ảnh và QR, có đường"
+" gióng"
+msgstr ""
+
+#. module: isd_layout_builder
 #: model:ir.model.fields,field_description:isd_layout_builder.field_isd_api_token__token
 msgid "Token"
 msgstr "Token"
@@ -514,6 +520,12 @@ msgstr "Chiều rộng ViewBox"
 #: model_terms:ir.ui.view,arch_db:isd_layout_builder.view_isd_layout_type_form
 msgid "Width"
 msgstr "Chiều rộng"
+
+#. module: isd_layout_builder
+#. odoo-javascript
+#: code:addons/isd_layout_builder/static/src/layout_editor/layout_editor.xml:0
+msgid "Zoom"
+msgstr "Thu phóng"
 
 #. module: isd_layout_builder
 #: model_terms:ir.ui.view,arch_db:isd_layout_builder.view_isd_api_token_form

@@ -1,5 +1,5 @@
 /** @odoo-module **/
-import { Component, onWillUnmount, useRef, useState } from "@odoo/owl";
+import { Component, onWillUnmount, useEffect, useRef, useState } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { standardWidgetProps } from "@web/views/widgets/standard_widget_props";
 
@@ -19,6 +19,19 @@ const HANDLE_PX = 8;
 const MAX_WIDTH_PX = 640;
 const MAX_HEIGHT_PX = 560;
 const MIN_SIZE = 2; // viewBox units
+// Zoom only changes how big the canvas is drawn: the frames are stored in
+// viewBox units, so the list and the exported PNG keep their size
+const ZOOMS = [1, 2, 4];
+const ZOOM_KEY = "isd_layout_editor.zoom";
+
+function storedZoom() {
+    try {
+        const zoom = Number(window.localStorage.getItem(ZOOM_KEY));
+        return ZOOMS.includes(zoom) ? zoom : 1;
+    } catch {
+        return 1;
+    }
+}
 
 const round2 = (v) => Math.round(v * 100) / 100;
 // A saved row keeps its database id across a save; a new one only has the
@@ -40,8 +53,25 @@ export class LayoutEditor extends Component {
 
     setup() {
         this.svgRef = useRef("svg");
+        this.viewportRef = useRef("viewport");
         this.handles = HANDLES;
-        this.state = useState({ selectedId: null, live: null, guides: [], hints: [] });
+        this.zooms = ZOOMS;
+        this.state = useState({ selectedId: null, live: null, guides: [], hints: [], zoom: storedZoom() });
+        // After a zoom, scroll so the point that was in view stays in view
+        this.zoomFocus = null;
+        useEffect(
+            () => {
+                const viewport = this.viewportRef.el;
+                const focus = this.zoomFocus;
+                if (viewport && focus) {
+                    const scale = this.display.scale;
+                    viewport.scrollLeft = focus.x * scale - viewport.clientWidth / 2;
+                    viewport.scrollTop = focus.y * scale - viewport.clientHeight / 2;
+                }
+                this.zoomFocus = null;
+            },
+            () => [this.state.zoom]
+        );
         this.drag = null;
         this.onWindowMove = (ev) => this.onPointerMove(ev);
         this.onWindowUp = () => this.onPointerUp();
@@ -65,8 +95,33 @@ export class LayoutEditor extends Component {
         return !this.props.readonly;
     }
     get display() {
-        const scale = Math.min(MAX_WIDTH_PX / this.vbw, MAX_HEIGHT_PX / this.vbh);
+        const fit = Math.min(MAX_WIDTH_PX / this.vbw, MAX_HEIGHT_PX / this.vbh);
+        const scale = fit * this.state.zoom;
         return { width: this.vbw * scale, height: this.vbh * scale, scale };
+    }
+
+    setZoom(zoom) {
+        if (zoom === this.state.zoom) {
+            return;
+        }
+        // Keep the selected frame in view, else whatever is in the middle now
+        const frame = this.selected;
+        const viewport = this.viewportRef.el;
+        const scale = this.display.scale;
+        if (frame) {
+            this.zoomFocus = { x: frame.x + frame.width / 2, y: frame.y + frame.height / 2 };
+        } else if (viewport) {
+            this.zoomFocus = {
+                x: (viewport.scrollLeft + viewport.clientWidth / 2) / scale,
+                y: (viewport.scrollTop + viewport.clientHeight / 2) / scale,
+            };
+        }
+        this.state.zoom = zoom;
+        try {
+            window.localStorage.setItem(ZOOM_KEY, String(zoom));
+        } catch {
+            // Private windows may refuse: the zoom then just isn't remembered
+        }
     }
     /** One screen pixel, in viewBox units. */
     get px() {
@@ -507,6 +562,11 @@ export class LayoutEditor extends Component {
 
     // ------------------------------------------------------------- keyboard
     async onKeydown(ev) {
+        if (["1", "2", "4"].includes(ev.key) && !ev.ctrlKey && !ev.metaKey && !ev.altKey) {
+            ev.preventDefault();
+            this.setZoom(Number(ev.key));
+            return;
+        }
         const frame = this.selected;
         if (!frame) {
             return;
