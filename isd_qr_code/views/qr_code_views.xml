@@ -3,7 +3,6 @@
     <record id="view_qr_code_list" model="ir.ui.view">
         <field name="name">isd.qr.code.list</field>
         <field name="model">isd.qr.code</field>
-        <field name="path">isd-qr-code</field>
         <field name="arch" type="xml">
             <list>
                 <field name="image" widget="image" options="{'size': [40, 40]}" optional="show"/>
@@ -165,6 +164,7 @@
     <record id="action_qr_studio" model="ir.actions.client">
         <field name="name">QR Studio</field>
         <field name="tag">isd_qr_code.studio</field>
+        <field name="path">isd-qr-code</field>
     </record>
 
     <record id="view_qr_code_tag_list" model="ir.ui.view">
