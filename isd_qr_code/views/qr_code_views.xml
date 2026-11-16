@@ -3,6 +3,7 @@
     <record id="view_qr_code_list" model="ir.ui.view">
         <field name="name">isd.qr.code.list</field>
         <field name="model">isd.qr.code</field>
+        <field name="path">isd-qr-code</field>
         <field name="arch" type="xml">
             <list>
                 <field name="image" widget="image" options="{'size': [40, 40]}" optional="show"/>
@@ -154,6 +155,7 @@
         <field name="name">Thư viện mã QR</field>
         <field name="res_model">isd.qr.code</field>
         <field name="view_mode">kanban,list,form</field>
+        <field name="path">isd-qr-library</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">Chưa có mã QR nào</p>
             <p>Mở QR Studio để tạo mã đầu tiên, hoặc bấm Mới để tạo ngay tại đây.</p>
@@ -179,5 +181,6 @@
         <field name="name">Nhãn</field>
         <field name="res_model">isd.qr.code.tag</field>
         <field name="view_mode">list</field>
+        <field name="path">isd-qr-tags</field>
     </record>
 </odoo>

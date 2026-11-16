@@ -3,6 +3,7 @@
     <record id="action_hub" model="ir.actions.client">
         <field name="name">ISD Tools</field>
         <field name="tag">isd_tool.hub</field>
+        <field name="path">isd-tools</field>
     </record>
 
     <record id="view_tool_list" model="ir.ui.view">
