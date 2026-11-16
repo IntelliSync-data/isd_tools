@@ -1,0 +1,5 @@
+# Python bytecode, written next to every module Odoo imports
+__pycache__/
+*.pyc
+# macOS writes one of these into every folder Finder opens
+.DS_Store
