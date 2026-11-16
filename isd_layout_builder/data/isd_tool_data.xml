@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Thẻ trong app ISD Tools, thay cho menu app "Layout Builder" riêng -->
+    <record id="isd_tool_layout_builder" model="isd.tool">
+        <field name="name">Layout Builder</field>
+        <field name="description">Thiết kế layout in cho photobooth: kéo thả, resize các ô ảnh và QR, có đường gióng</field>
+        <field name="icon" type="base64" file="isd_layout_builder/static/description/icon.png"/>
+        <field name="category_id" ref="isd_tool.category_image"/>
+        <field name="sequence">10</field>
+        <field name="action_id" ref="action_isd_layout_type"/>
+    </record>
+    <record id="isd_tool_layout_builder_link_api" model="isd.tool.link">
+        <field name="tool_id" ref="isd_tool_layout_builder"/>
+        <field name="name">API Documentation</field>
+        <field name="sequence">1</field>
+        <field name="action_id" ref="action_isd_api_token_open"/>
+    </record>
+</odoo>

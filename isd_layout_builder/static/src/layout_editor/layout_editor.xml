@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="isd_layout_builder.LayoutEditor">
+        <div class="o_isd_layout_editor">
+            <div t-if="!ready" class="text-muted">Choose the ViewBox width and height to see the layout.</div>
+            <t t-else="">
+                <t t-set="frameList" t-value="frames"/>
+                <t t-set="current" t-value="selected"/>
+                <svg t-ref="svg" tabindex="0" class="o_isd_le_canvas"
+                     t-att-width="display.width" t-att-height="display.height"
+                     t-attf-viewBox="0 0 {{vbw}} {{vbh}}"
+                     t-on-pointerdown="onCanvasPointerDown" t-on-keydown="onKeydown">
+                    <rect class="o_isd_le_bg" x="0" y="0" t-att-width="vbw" t-att-height="vbh"/>
+                    <rect t-if="safe.valid" class="o_isd_le_safe" t-att-x="safe.x" t-att-y="safe.y"
+                          t-att-width="safe.r - safe.x" t-att-height="safe.b - safe.y"/>
+
+                    <t t-foreach="frameList" t-as="frame" t-key="frame.id">
+                        <g class="o_isd_le_item">
+                            <rect class="o_isd_le_frame"
+                                  t-att-class="{
+                                      'o_isd_le_qr': frame.isQr,
+                                      'o_isd_le_empty': frame.empty,
+                                      'o_isd_le_selected': frame.id === state.selectedId,
+                                      'o_isd_le_readonly': !editable,
+                                  }"
+                                  t-att-x="frame.x" t-att-y="frame.y"
+                                  t-att-width="frame.width" t-att-height="frame.height"
+                                  t-on-pointerdown="(ev) => this.onPointerDown(ev, frame, null)"/>
+                            <text class="o_isd_le_label" t-att-x="frame.x + frame.width / 2"
+                                  t-att-y="frame.y + frame.height / 2" t-att-font-size="labelSize(frame)"
+                                  dominant-baseline="middle" text-anchor="middle"
+                                  t-esc="label(frame)"/>
+                        </g>
+                    </t>
+
+                    <t t-foreach="state.guides" t-as="guide" t-key="guide_index">
+                        <line t-if="guide.axis === 'x'" class="o_isd_le_guide"
+                              t-att-x1="guide.at" y1="0" t-att-x2="guide.at" t-att-y2="vbh"/>
+                        <line t-else="" class="o_isd_le_guide"
+                              x1="0" t-att-y1="guide.at" t-att-x2="vbw" t-att-y2="guide.at"/>
+                    </t>
+
+                    <t t-if="current and editable">
+                        <t t-foreach="handles" t-as="handle" t-key="handle.dir">
+                            <t t-set="box" t-value="handleBox(current, handle.dir)"/>
+                            <rect class="o_isd_le_handle" t-att-x="box.x" t-att-y="box.y"
+                                  t-att-width="box.size" t-att-height="box.size"
+                                  t-attf-style="cursor: {{handle.cursor}};"
+                                  t-att-data-handle="handle.dir"
+                                  t-on-pointerdown="(ev) => this.onPointerDown(ev, current, handle.dir)"/>
+                        </t>
+                    </t>
+                </svg>
+
+                <div class="o_isd_le_info">
+                    <t t-if="current">
+                        <strong t-esc="current.isQr ? 'QR' : '#' + current.no"/>
+                        <span>X <t t-esc="fmt(current.x)"/></span>
+                        <span>Y <t t-esc="fmt(current.y)"/></span>
+                        <span>W <t t-esc="fmt(current.width)"/></span>
+                        <span>H <t t-esc="fmt(current.height)"/></span>
+                        <span t-foreach="state.hints" t-as="hint" t-key="hint_index" class="o_isd_le_hint" t-esc="hint"/>
+                    </t>
+                    <span t-else="" class="text-muted">Click a frame to select it.</span>
+                </div>
+                <div t-if="editable" class="o_isd_le_help text-muted">
+                    Drag to move, drag a handle to resize. Edges stick to the canvas, the print margins and other
+                    frames. Shift: keep proportions (straight line when moving). Alt: resize from the centre.
+                    Ctrl/⌘: no snapping. Arrow keys: nudge (Shift: ×10). QR frames stay square.
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

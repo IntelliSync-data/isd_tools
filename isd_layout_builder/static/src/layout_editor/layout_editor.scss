@@ -1,0 +1,82 @@
+.o_isd_layout_editor {
+    .o_isd_le_canvas {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        border: 1px solid $border-color;
+        outline: none;
+        touch-action: none;
+        user-select: none;
+
+        &:focus-visible {
+            box-shadow: 0 0 0 2px rgba($primary, 0.35);
+        }
+    }
+    .o_isd_le_bg {
+        fill: #c8c8c8;
+    }
+    .o_isd_le_safe {
+        fill: none;
+        stroke: #2b8a3e;
+        stroke-width: 1px;
+        stroke-dasharray: 4 3;
+        vector-effect: non-scaling-stroke;
+        pointer-events: none;
+    }
+    .o_isd_le_frame {
+        fill: rgba(255, 255, 255, 0.92);
+        stroke: #7d7d7d;
+        stroke-width: 1px;
+        vector-effect: non-scaling-stroke;
+        cursor: move;
+
+        &.o_isd_le_qr {
+            fill: #fff4dc;
+            stroke: #d98e04;
+        }
+        &.o_isd_le_empty {
+            fill: rgba(255, 255, 255, 0.5);
+            stroke-dasharray: 3 3;
+        }
+        &.o_isd_le_selected {
+            stroke: $primary;
+            stroke-width: 2px;
+        }
+        &.o_isd_le_readonly {
+            cursor: pointer;
+        }
+    }
+    .o_isd_le_label {
+        fill: #666;
+        pointer-events: none;
+        font-family: $font-family-sans-serif;
+    }
+    .o_isd_le_guide {
+        stroke: #ff1fb4;
+        stroke-width: 1px;
+        vector-effect: non-scaling-stroke;
+        pointer-events: none;
+    }
+    .o_isd_le_handle {
+        fill: #fff;
+        stroke: $primary;
+        stroke-width: 1px;
+        vector-effect: non-scaling-stroke;
+    }
+    .o_isd_le_info {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px 14px;
+        margin-top: 8px;
+        font-variant-numeric: tabular-nums;
+    }
+    .o_isd_le_hint {
+        color: #c4127f;
+        font-weight: 600;
+    }
+    .o_isd_le_help {
+        margin-top: 4px;
+        font-size: 0.85em;
+        max-width: 640px;
+    }
+}
