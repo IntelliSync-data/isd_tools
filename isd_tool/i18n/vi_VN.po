@@ -63,11 +63,6 @@ msgid "Created on"
 msgstr "Ngày tạo"
 
 #. module: isd_tool
-#: model:isd.tool.category,name:isd_tool.category_data_api
-msgid "Data & API"
-msgstr "Dữ liệu & API"
-
-#. module: isd_tool
 #: model:ir.model.fields,field_description:isd_tool.field_isd_tool__description
 msgid "Description"
 msgstr "Mô tả"

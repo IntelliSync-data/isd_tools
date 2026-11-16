@@ -17,10 +17,6 @@
         <field name="name">Images</field>
         <field name="sequence">40</field>
     </record>
-    <record id="category_data_api" model="isd.tool.category">
-        <field name="name">Data &amp; API</field>
-        <field name="sequence">50</field>
-    </record>
     <record id="category_other" model="isd.tool.category">
         <field name="name">Other</field>
         <field name="sequence">90</field>
