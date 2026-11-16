@@ -1,0 +1,93 @@
+  name: Update ISD Tools Ehub
+
+  on:
+    push:
+      branches:
+        - ehub
+
+  jobs:
+    update:
+      runs-on: ubuntu-latest
+      
+      steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Deploy isd_tools to Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EHUB_HOST }}
+          username: ${{ secrets.EHUB_USERNAME }}
+          key: ${{ secrets.EHUB_SSH_KEY }}
+          script_stop: true
+          script: |
+            # Clone if not exists, otherwise update
+            if [ ! -d /opt/addons-system/isd_tools ]; then
+              sudo mkdir -p /opt/addons-system
+              sudo chown odoo:odoo /opt/addons-system
+              sudo -u odoo git clone git@github-odoo:IntelliSync-data/tools.git /opt/addons-system/isd_tools
+              cd /opt/addons-system/isd_tools && git checkout ehub
+            else
+              # ubuntu only have permission to run git commands, so we need to use sudo -u odoo to run git commands as odoo user
+              sudo -u odoo bash -c "cd /opt/addons-system/isd_tools && git fetch origin && git reset --hard origin/ehub" 
+            fi
+
+            # Sync isd_tools directory with rsync (including deletion) 
+            # Using loop to sync each module separately, dont sync the 
+            # whole isd_tools directory like bloompod, kclick, vfo  
+            for mod in isd_tool isd_qr_code; do
+              sudo mkdir -p /opt/custom-addons/$mod
+              sudo rsync -av --delete \
+                --exclude='views/menu_items_override.xml.*' \
+                --exclude='__manifest__.py.*' \
+                /opt/addons-system/isd_tools/$mod/ /opt/custom-addons/$mod/
+            done
+
+      - name: Update isd_tools Module
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EHUB_HOST }}
+          username: ${{ secrets.EHUB_USERNAME }}
+          key: ${{ secrets.EHUB_SSH_KEY }}
+          script: |
+            echo "Updating apps list..."
+            echo "env['ir.module.module'].update_list(); env.cr.commit()" | sudo -u odoo /opt/odoo-venv/bin/python /opt/odoo18/odoo-bin shell -c /etc/odoo/odoo.conf -d ${{ secrets.EHUB_DB_NAME }} --no-http
+            if [ $? -ne 0 ]; then
+              echo "update_list() FAILED"
+              exit 1
+            fi
+
+            echo "Updating isd_tools module..."
+            sudo -u odoo /opt/odoo-venv/bin/python /opt/odoo18/odoo-bin -c /etc/odoo/odoo.conf -d ${{ secrets.EHUB_DB_NAME }} -u isd_tool,isd_qr_code --stop-after-init --no-http
+            if [ $? -ne 0 ]; then
+              echo "Module update FAILED"
+              exit 1
+            fi
+
+      - name: Restart Odoo Service
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EHUB_HOST }}
+          username: ${{ secrets.EHUB_USERNAME }}
+          key: ${{ secrets.EHUB_SSH_KEY }}
+          script: |
+            sudo systemctl restart odoo
+
+      - name: Verify Odoo Service
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EHUB_HOST }}
+          username: ${{ secrets.EHUB_USERNAME }}
+          key: ${{ secrets.EHUB_SSH_KEY }}
+          script: |
+            sleep 5
+            if sudo systemctl is-active --quiet odoo; then
+              echo "Odoo restarted successfully"
+            else
+              echo "Odoo failed to restart"
+              echo "=== systemctl status ==="
+              sudo systemctl status odoo --no-pager
+              echo "=== Last 50 lines of Odoo log ==="
+              sudo tail -n 50 /var/log/odoo/odoo.log
+              exit 1
+            fi
