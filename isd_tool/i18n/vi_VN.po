@@ -1,0 +1,282 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* isd_tool
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-11 14:36+0000\n"
+"PO-Revision-Date: 2026-11-11 14:36+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: isd_tool
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool__active
+msgid "Active"
+msgstr "Đang dùng"
+
+#. module: isd_tool
+#. odoo-javascript
+#: code:addons/isd_tool/static/src/hub/hub.xml:0
+msgid "All"
+msgstr "Tất cả"
+
+#. module: isd_tool
+#: model:ir.ui.menu,name:isd_tool.menu_hub
+msgid "All Tools"
+msgstr "Tất cả công cụ"
+
+#. module: isd_tool
+#: model:ir.actions.act_window,name:isd_tool.action_tool_category
+#: model:ir.ui.menu,name:isd_tool.menu_tool_category
+msgid "Categories"
+msgstr "Nhóm công cụ"
+
+#. module: isd_tool
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool__category_id
+#: model_terms:ir.ui.view,arch_db:isd_tool.view_tool_search
+msgid "Category"
+msgstr "Nhóm"
+
+#. module: isd_tool
+#: model:ir.ui.menu,name:isd_tool.menu_config
+msgid "Configuration"
+msgstr "Cấu hình"
+
+#. module: isd_tool
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool__create_uid
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool_category__create_uid
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool_link__create_uid
+msgid "Created by"
+msgstr "Người tạo"
+
+#. module: isd_tool
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool__create_date
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool_category__create_date
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool_link__create_date
+msgid "Created on"
+msgstr "Ngày tạo"
+
+#. module: isd_tool
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool__description
+msgid "Description"
+msgstr "Mô tả"
+
+#. module: isd_tool
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool__display_name
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool_category__display_name
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool_link__display_name
+msgid "Display Name"
+msgstr "Tên hiển thị"
+
+#. module: isd_tool
+#: model:isd.tool.category,name:isd_tool.category_document
+msgid "Documents"
+msgstr "Tài liệu"
+
+#. module: isd_tool
+#: model:ir.model.fields,help:isd_tool.field_isd_tool__group_ids
+msgid "Empty means every internal user"
+msgstr "Để trống là mọi nhân viên đều thấy"
+
+#. module: isd_tool
+#: model:ir.model.fields,help:isd_tool.field_isd_tool_link__group_ids
+msgid "Empty means everyone who sees the tool"
+msgstr "Để trống là ai thấy công cụ thì thấy link này"
+
+#. module: isd_tool
+#: model_terms:ir.ui.view,arch_db:isd_tool.view_tool_search
+msgid "Group By"
+msgstr "Nhóm theo"
+
+#. module: isd_tool
+#: model_terms:ir.ui.view,arch_db:isd_tool.view_tool_form
+#: model_terms:ir.ui.view,arch_db:isd_tool.view_tool_search
+msgid "Hidden"
+msgstr "Đã ẩn"
+
+#. module: isd_tool
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool__id
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool_category__id
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool_link__id
+msgid "ID"
+msgstr "ID"
+
+#. module: isd_tool
+#: model:ir.model,name:isd_tool.model_isd_tool
+msgid "ISD Tool"
+msgstr "Công cụ ISD"
+
+#. module: isd_tool
+#: model:ir.model,name:isd_tool.model_isd_tool_category
+msgid "ISD Tool Category"
+msgstr "Nhóm công cụ ISD"
+
+#. module: isd_tool
+#: model:ir.model,name:isd_tool.model_isd_tool_link
+msgid "ISD Tool Shortcut"
+msgstr "Lối tắt công cụ ISD"
+
+#. module: isd_tool
+#. odoo-javascript
+#: code:addons/isd_tool/static/src/hub/hub.xml:0
+#: model:ir.actions.client,name:isd_tool.action_hub
+#: model:ir.ui.menu,name:isd_tool.menu_root
+msgid "ISD Tools"
+msgstr "ISD Tools"
+
+#. module: isd_tool
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool__icon
+msgid "Icon"
+msgstr "Icon"
+
+#. module: isd_tool
+#: model:isd.tool.category,name:isd_tool.category_image
+msgid "Images"
+msgstr "Hình ảnh"
+
+#. module: isd_tool
+#. odoo-javascript
+#: code:addons/isd_tool/static/src/hub/hub.xml:0
+msgid "Install"
+msgstr "Cài đặt"
+
+#. module: isd_tool
+#: model_terms:ir.actions.act_window,help:isd_tool.action_tool
+msgid "Install an ISD tool from Apps and its card appears here."
+msgstr "Cài một công cụ ISD trong Apps, thẻ của nó sẽ hiện ở đây."
+
+#. module: isd_tool
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool__write_uid
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool_category__write_uid
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool_link__write_uid
+msgid "Last Updated by"
+msgstr "Cập nhật bởi"
+
+#. module: isd_tool
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool__write_date
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool_category__write_date
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool_link__write_date
+msgid "Last Updated on"
+msgstr "Cập nhật lúc"
+
+#. module: isd_tool
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool__name
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool_category__name
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool_link__name
+msgid "Name"
+msgstr "Tên"
+
+#. module: isd_tool
+#: model_terms:ir.actions.act_window,help:isd_tool.action_tool
+msgid "No tool installed yet"
+msgstr "Chưa cài công cụ nào"
+
+#. module: isd_tool
+#. odoo-javascript
+#: code:addons/isd_tool/static/src/hub/hub.xml:0
+msgid ""
+"No tool installed yet. Install an ISD tool from Apps and it shows up here."
+msgstr "Chưa cài công cụ nào. Cài một công cụ ISD trong Apps, nó sẽ hiện ở đây."
+
+#. module: isd_tool
+#. odoo-javascript
+#: code:addons/isd_tool/static/src/hub/hub.xml:0
+msgid "No tool matches your search."
+msgstr "Không có công cụ nào khớp với tìm kiếm."
+
+#. module: isd_tool
+#. odoo-javascript
+#: code:addons/isd_tool/static/src/hub/hub.xml:0
+msgid "Not installed"
+msgstr "Chưa cài đặt"
+
+#. module: isd_tool
+#: model_terms:ir.ui.view,arch_db:isd_tool.view_tool_form
+msgid "One line about what the tool does"
+msgstr "Một dòng mô tả công cụ làm gì"
+
+#. module: isd_tool
+#: model:ir.model.fields,help:isd_tool.field_isd_tool__description
+msgid "One line under the name on the card"
+msgstr "Một dòng hiện dưới tên trên thẻ"
+
+#. module: isd_tool
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool__action_id
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool_link__action_id
+msgid "Opens"
+msgstr "Mở ra"
+
+#. module: isd_tool
+#. odoo-javascript
+#: code:addons/isd_tool/static/src/hub/hub.js:0
+#: model:isd.tool.category,name:isd_tool.category_other
+msgid "Other"
+msgstr "Khác"
+
+#. module: isd_tool
+#: model:ir.model.fields,help:isd_tool.field_isd_tool__link_ids
+msgid "Other screens of the tool, shown as links on the card"
+msgstr "Các màn hình khác của công cụ, hiện thành link trên thẻ"
+
+#. module: isd_tool
+#: model:isd.tool.category,name:isd_tool.category_pdf
+msgid "PDF"
+msgstr "PDF"
+
+#. module: isd_tool
+#: model:isd.tool.category,name:isd_tool.category_code
+msgid "QR & Barcode"
+msgstr "QR & Mã vạch"
+
+#. module: isd_tool
+#. odoo-javascript
+#: code:addons/isd_tool/static/src/hub/hub.xml:0
+msgid "Search tools..."
+msgstr "Tìm công cụ..."
+
+#. module: isd_tool
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool__sequence
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool_category__sequence
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool_link__sequence
+msgid "Sequence"
+msgstr "Thứ tự"
+
+#. module: isd_tool
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool__link_ids
+msgid "Shortcuts"
+msgstr "Lối tắt"
+
+#. module: isd_tool
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool_link__tool_id
+#: model_terms:ir.ui.view,arch_db:isd_tool.view_tool_form
+msgid "Tool"
+msgstr "Công cụ"
+
+#. module: isd_tool
+#: model:ir.actions.act_window,name:isd_tool.action_tool
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool_category__tool_ids
+#: model:ir.ui.menu,name:isd_tool.menu_tool
+msgid "Tools"
+msgstr "Công cụ"
+
+#. module: isd_tool
+#: model:ir.model.fields,help:isd_tool.field_isd_tool__active
+msgid "Untick to hide the card without uninstalling the tool"
+msgstr "Bỏ chọn để ẩn thẻ mà không cần gỡ công cụ"
+
+#. module: isd_tool
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool__group_ids
+#: model:ir.model.fields,field_description:isd_tool.field_isd_tool_link__group_ids
+msgid "Visible To"
+msgstr "Ai được thấy"
+
+#. module: isd_tool
+#: model:ir.model.fields,help:isd_tool.field_isd_tool__action_id
+msgid "What a click on the card opens"
+msgstr "Bấm vào thẻ thì mở màn hình nào"

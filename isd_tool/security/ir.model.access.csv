@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_isd_tool_user,isd.tool.user,model_isd_tool,base.group_user,1,0,0,0
+access_isd_tool_admin,isd.tool.admin,model_isd_tool,base.group_system,1,1,1,1
+access_isd_tool_link_user,isd.tool.link.user,model_isd_tool_link,base.group_user,1,0,0,0
+access_isd_tool_link_admin,isd.tool.link.admin,model_isd_tool_link,base.group_system,1,1,1,1
+access_isd_tool_category_user,isd.tool.category.user,model_isd_tool_category,base.group_user,1,0,0,0
+access_isd_tool_category_admin,isd.tool.category.admin,model_isd_tool_category,base.group_system,1,1,1,1

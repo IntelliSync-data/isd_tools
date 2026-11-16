@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_isd_qr_code_user,isd.qr.code.user,model_isd_qr_code,group_qr_user,1,1,1,1
+access_isd_qr_code_tag_user,isd.qr.code.tag.user,model_isd_qr_code_tag,group_qr_user,1,1,1,0
+access_isd_qr_code_tag_manager,isd.qr.code.tag.manager,model_isd_qr_code_tag,group_qr_manager,1,1,1,1

@@ -1,0 +1,101 @@
+.o_isd_tool_hub {
+    height: 100%;
+    overflow: auto;
+    background-color: $o-webclient-background-color;
+
+    .o_isd_tool_inner {
+        width: 100%;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 24px 16px 40px;
+    }
+    .o_isd_tool_head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+    }
+    .o_isd_tool_search {
+        max-width: 320px;
+    }
+    .o_isd_tool_cats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+    .o_isd_tool_group {
+        margin: 24px 0 12px;
+        color: $text-muted;
+        font-weight: 600;
+    }
+    .o_isd_tool_grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 12px;
+    }
+    .o_isd_tool_card {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 14px;
+        background-color: $o-view-background-color;
+        border: 1px solid $border-color;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: box-shadow 0.15s ease, border-color 0.15s ease;
+
+        &:hover,
+        &:focus-visible {
+            border-color: $primary;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+            outline: none;
+        }
+    }
+    .o_isd_tool_card_off {
+        cursor: default;
+        opacity: 0.7;
+
+        &:hover {
+            border-color: $border-color;
+            box-shadow: none;
+        }
+        .o_isd_tool_icon {
+            filter: grayscale(1);
+        }
+    }
+    .o_isd_tool_icon {
+        width: 56px;
+        height: 56px;
+        flex-shrink: 0;
+        border-radius: 10px;
+        object-fit: cover;
+    }
+    .o_isd_tool_body {
+        min-width: 0;
+    }
+    .o_isd_tool_name {
+        font-weight: 600;
+        font-size: 1.05rem;
+    }
+    .o_isd_tool_desc {
+        color: $text-muted;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .o_isd_tool_links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px 14px;
+        margin-top: 6px;
+    }
+    .o_isd_tool_empty {
+        padding: 48px 0;
+        text-align: center;
+        color: $text-muted;
+    }
+}

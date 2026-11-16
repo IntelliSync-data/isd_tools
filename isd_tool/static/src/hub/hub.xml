@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="isd_tool.ToolHub">
+        <div class="o_action o_isd_tool_hub">
+            <div class="o_isd_tool_inner">
+                <div class="o_isd_tool_head">
+                    <h2 class="mb-0">ISD Tools</h2>
+                    <input type="search" class="form-control o_isd_tool_search" placeholder="Search tools..."
+                           t-model="state.search"/>
+                </div>
+
+                <div class="o_isd_tool_cats" t-if="state.data.categories.length > 1">
+                    <button type="button" class="btn btn-sm"
+                            t-att-class="state.categoryId ? 'btn-light' : 'btn-primary'"
+                            t-on-click="() => this.setCategory(false)">All</button>
+                    <t t-foreach="state.data.categories" t-as="cat" t-key="cat.id">
+                        <button type="button" class="btn btn-sm"
+                                t-att-class="state.categoryId === cat.id ? 'btn-primary' : 'btn-light'"
+                                t-on-click="() => this.setCategory(cat.id)" t-esc="cat.name"/>
+                    </t>
+                </div>
+
+                <t t-foreach="groups" t-as="group" t-key="group.key">
+                    <h5 class="o_isd_tool_group" t-if="group.name" t-esc="group.name"/>
+                    <div class="o_isd_tool_grid">
+                        <t t-foreach="group.tools" t-as="tool" t-key="tool.id">
+                            <div class="o_isd_tool_card" role="button" tabindex="0"
+                                 t-on-click="() => this.open(tool.action_id)"
+                                 t-on-keydown="(ev) => this.onCardKeydown(ev, tool.action_id)">
+                                <img class="o_isd_tool_icon" t-att-src="tool.icon_url" alt=""/>
+                                <div class="o_isd_tool_body">
+                                    <div class="o_isd_tool_name" t-esc="tool.name"/>
+                                    <div class="o_isd_tool_desc" t-if="tool.description" t-esc="tool.description"/>
+                                    <div class="o_isd_tool_links" t-if="tool.links.length">
+                                        <t t-foreach="tool.links" t-as="link" t-key="link.id">
+                                            <button type="button" class="btn btn-link btn-sm p-0"
+                                                    t-on-click.stop="() => this.open(link.action_id)"
+                                                    t-esc="link.name"/>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+
+                <div class="o_isd_tool_empty" t-if="!groups.length">
+                    <t t-if="state.data.tools.length">No tool matches your search.</t>
+                    <t t-else="">No tool installed yet. Install an ISD tool from Apps and it shows up here.</t>
+                </div>
+
+                <t t-if="available.length">
+                    <h5 class="o_isd_tool_group">Not installed</h5>
+                    <div class="o_isd_tool_grid">
+                        <t t-foreach="available" t-as="module" t-key="module.id">
+                            <div class="o_isd_tool_card o_isd_tool_card_off">
+                                <img class="o_isd_tool_icon" t-att-src="module.icon_url" alt=""/>
+                                <div class="o_isd_tool_body">
+                                    <div class="o_isd_tool_name" t-esc="module.name"/>
+                                    <div class="o_isd_tool_desc" t-if="module.description" t-esc="module.description"/>
+                                    <div class="o_isd_tool_links">
+                                        <button type="button" class="btn btn-secondary btn-sm"
+                                                t-on-click="() => this.openModule(module)">Install</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </t>
+</templates>

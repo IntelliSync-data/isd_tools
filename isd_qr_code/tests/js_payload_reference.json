@@ -1,0 +1,14 @@
+{
+ "link_plain": "https://example.com/san-pham?utm_source=qr",
+ "link_http": "HTTP://Example.com",
+ "link_empty": "",
+ "text": "Xin chào 👋\nDòng 2",
+ "wifi": "WIFI:T:WPA;S:Cà phê\\;5G;P:p@ss\\:\\\"w\\,d\\\\;H:true;;",
+ "wifi_open": "WIFI:T:nopass;S:Open;P:;H:false;;",
+ "vcard": "BEGIN:VCARD\nVERSION:3.0\nN:Nguyễn Văn;Nam;;;\nFN:Nam Nguyễn Văn\nORG:ISD\nTITLE:Dev\nTEL;TYPE=CELL,VOICE:+84 901\nEMAIL;TYPE=PREF,INTERNET:a@b.vn\nURL:https://x.vn\nADR;TYPE=WORK:;;Q1, HCM;;;;\nNOTE:hi\nEND:VCARD",
+ "vcard_min": "BEGIN:VCARD\nVERSION:3.0\nN:;Nam;;;\nFN:Nam\nEND:VCARD",
+ "email": "mailto:h%E1%BB%97%20tr%E1%BB%A3%40x.vn?subject=T%C6%B0%20v%E1%BA%A5n%20%26%20b%C3%A1o%20gi%C3%A1%20(g%E1%BA%A5p)!&body=Xin%20ch%C3%A0o%2C%0Ac%E1%BA%A7n%20100%25%20*g%E1%BA%A5p*%20~%20ok'",
+ "email_only": "mailto:a%40b.c",
+ "phone": "tel:+84987654321",
+ "sms": "smsto:+84987:Đăng ký: A"
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Thẻ trong app ISD Tools, thay cho menu app riêng -->
+    <record id="isd_tool_qr_code" model="isd.tool">
+        <field name="name">QR Code Studio</field>
+        <field name="description">Tạo mã QR cho link, Wi-Fi, vCard, email..., chèn logo, xuất SVG và PNG tới 4K</field>
+        <field name="icon" type="base64" file="isd_qr_code/static/description/icon.png"/>
+        <field name="category_id" ref="isd_tool.category_code"/>
+        <field name="sequence">10</field>
+        <field name="action_id" ref="action_qr_studio"/>
+        <field name="group_ids" eval="[(6, 0, [ref('group_qr_user')])]"/>
+    </record>
+    <record id="isd_tool_qr_code_link_library" model="isd.tool.link">
+        <field name="tool_id" ref="isd_tool_qr_code"/>
+        <field name="name">Thư viện</field>
+        <field name="sequence">1</field>
+        <field name="action_id" ref="action_qr_code"/>
+    </record>
+    <record id="isd_tool_qr_code_link_tags" model="isd.tool.link">
+        <field name="tool_id" ref="isd_tool_qr_code"/>
+        <field name="name">Nhãn</field>
+        <field name="sequence">2</field>
+        <field name="action_id" ref="action_qr_code_tag"/>
+        <field name="group_ids" eval="[(6, 0, [ref('group_qr_manager')])]"/>
+    </record>
+</odoo>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Categories a tool can point at with ref="isd_tool.category_..." -->
+    <record id="category_code" model="isd.tool.category">
+        <field name="name">QR &amp; Barcode</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="category_pdf" model="isd.tool.category">
+        <field name="name">PDF</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="category_document" model="isd.tool.category">
+        <field name="name">Documents</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="category_image" model="isd.tool.category">
+        <field name="name">Images</field>
+        <field name="sequence">40</field>
+    </record>
+    <record id="category_other" model="isd.tool.category">
+        <field name="name">Other</field>
+        <field name="sequence">90</field>
+    </record>
+</odoo>

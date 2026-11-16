@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_qr_code_list" model="ir.ui.view">
+        <field name="name">isd.qr.code.list</field>
+        <field name="model">isd.qr.code</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="image" widget="image" options="{'size': [40, 40]}" optional="show"/>
+                <field name="name"/>
+                <field name="qr_type"/>
+                <field name="payload" optional="show"/>
+                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" optional="show"/>
+                <field name="user_id" widget="many2one_avatar_user" optional="show"/>
+                <field name="write_date" string="Cập nhật" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_qr_code_kanban" model="ir.ui.view">
+        <field name="name">isd.qr.code.kanban</field>
+        <field name="model">isd.qr.code</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <aside class="o_kanban_aside_full me-2">
+                            <field t-if="record.image.raw_value" name="image" widget="image" options="{'size': [84, 84]}"
+                                   alt="QR"/>
+                            <div t-else="" class="d-flex align-items-center justify-content-center text-muted"
+                                 style="width: 84px; height: 84px;">
+                                <i class="fa fa-qrcode fa-3x opacity-25" title="Chưa có ảnh"/>
+                            </div>
+                        </aside>
+                        <main class="overflow-hidden">
+                            <field name="name" class="fw-bold text-truncate"/>
+                            <field name="qr_type" class="text-muted small"/>
+                            <field name="payload" class="small text-truncate d-block"/>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                            <footer class="pt-1">
+                                <field name="user_id" widget="many2one_avatar_user"/>
+                            </footer>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_qr_code_form" model="ir.ui.view">
+        <field name="name">isd.qr.code.form</field>
+        <field name="model">isd.qr.code</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_open_studio" type="object" string="Mở trong QR Studio" class="oe_highlight"
+                            invisible="not id"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Lưu trữ" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Tên mã QR"/></h1>
+                        <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" placeholder="Nhãn"/>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <group string="Nội dung">
+                                <field name="qr_type" widget="radio" options="{'horizontal': true}"/>
+                                <field name="url" invisible="qr_type != 'link'" placeholder="https://example.com/san-pham"/>
+                                <field name="text" invisible="qr_type != 'text'" placeholder="Nhập nội dung bất kỳ..."/>
+                                <field name="wifi_ssid" invisible="qr_type != 'wifi'" placeholder="MyCoffee_5G"/>
+                                <field name="wifi_password" invisible="qr_type != 'wifi'" password="True"
+                                       readonly="wifi_auth == 'nopass'"/>
+                                <field name="wifi_auth" invisible="qr_type != 'wifi'"/>
+                                <field name="wifi_hidden" invisible="qr_type != 'wifi'"/>
+                                <field name="vcard_first_name" invisible="qr_type != 'vcard'"/>
+                                <field name="vcard_last_name" invisible="qr_type != 'vcard'"/>
+                                <field name="vcard_phone" invisible="qr_type != 'vcard'" widget="phone"/>
+                                <field name="vcard_email" invisible="qr_type != 'vcard'" widget="email"/>
+                                <field name="vcard_organization" invisible="qr_type != 'vcard'"/>
+                                <field name="vcard_title" invisible="qr_type != 'vcard'"/>
+                                <field name="vcard_website" invisible="qr_type != 'vcard'" widget="url"/>
+                                <field name="vcard_address" invisible="qr_type != 'vcard'"/>
+                                <field name="vcard_note" invisible="qr_type != 'vcard'"/>
+                                <field name="email_to" invisible="qr_type != 'email'" widget="email"/>
+                                <field name="email_subject" invisible="qr_type != 'email'"/>
+                                <field name="email_body" invisible="qr_type != 'email'"/>
+                                <field name="phone" invisible="qr_type not in ('phone', 'sms')" placeholder="+84 987 654 321"/>
+                                <field name="sms_message" invisible="qr_type != 'sms'"/>
+                            </group>
+                            <group string="Kiểu dáng">
+                                <group>
+                                    <field name="fg_color" widget="color"/>
+                                    <field name="bg_color" widget="color"/>
+                                    <field name="logo" widget="image" options="{'size': [64, 64]}"/>
+                                </group>
+                                <group>
+                                    <field name="ecc_level"/>
+                                    <field name="margin"/>
+                                    <field name="png_size"/>
+                                </group>
+                            </group>
+                        </div>
+                        <div class="col-lg-5">
+                            <field name="payload" widget="isd_qr_preview" nolabel="1"/>
+                            <group class="mt-3">
+                                <field name="payload_length"/>
+                                <field name="user_id" widget="many2one_avatar_user"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                            </group>
+                        </div>
+                    </div>
+                    <notebook>
+                        <page string="Ghi chú" name="note">
+                            <field name="description" placeholder="Dùng ở đâu, in bao nhiêu bản..."/>
+                        </page>
+                        <page string="Nội dung mã hoá" name="payload">
+                            <field name="payload" readonly="1" class="font-monospace"/>
+                        </page>
+                    </notebook>
+                    <field name="image" invisible="1" force_save="1"/>
+                    <field name="svg_content" invisible="1" force_save="1"/>
+                    <field name="write_date" invisible="1"/>
+                    <field name="active" invisible="1"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_qr_code_search" model="ir.ui.view">
+        <field name="name">isd.qr.code.search</field>
+        <field name="model">isd.qr.code</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" filter_domain="['|', ('name', 'ilike', self), ('payload', 'ilike', self)]"/>
+                <field name="tag_ids"/>
+                <field name="user_id"/>
+                <filter string="Mã của tôi" name="mine" domain="[('user_id', '=', uid)]"/>
+                <separator/>
+                <filter string="Link" name="link" domain="[('qr_type', '=', 'link')]"/>
+                <filter string="Wi-Fi" name="wifi" domain="[('qr_type', '=', 'wifi')]"/>
+                <filter string="vCard" name="vcard" domain="[('qr_type', '=', 'vcard')]"/>
+                <separator/>
+                <filter string="Đã lưu trữ" name="archived" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Nhóm theo">
+                    <filter string="Loại" name="group_type" context="{'group_by': 'qr_type'}"/>
+                    <filter string="Người tạo" name="group_user" context="{'group_by': 'user_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_qr_code" model="ir.actions.act_window">
+        <field name="name">Thư viện mã QR</field>
+        <field name="res_model">isd.qr.code</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Chưa có mã QR nào</p>
+            <p>Mở QR Studio để tạo mã đầu tiên, hoặc bấm Mới để tạo ngay tại đây.</p>
+        </field>
+    </record>
+
+    <record id="action_qr_studio" model="ir.actions.client">
+        <field name="name">QR Studio</field>
+        <field name="tag">isd_qr_code.studio</field>
+    </record>
+
+    <record id="view_qr_code_tag_list" model="ir.ui.view">
+        <field name="name">isd.qr.code.tag.list</field>
+        <field name="model">isd.qr.code.tag</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="color" widget="color_picker"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_qr_code_tag" model="ir.actions.act_window">
+        <field name="name">Nhãn</field>
+        <field name="res_model">isd.qr.code.tag</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

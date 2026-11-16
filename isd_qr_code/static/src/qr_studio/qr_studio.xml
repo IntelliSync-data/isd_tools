@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="isd_qr_code.QrStudio">
+        <div class="o_isd_qr_studio o_action h-100 overflow-auto">
+            <div class="o_isd_qr_container">
+                <div class="o_isd_qr_header d-flex align-items-center justify-content-between flex-wrap gap-2">
+                    <div>
+                        <h1 class="mb-1">
+                            <i class="fa fa-qrcode me-2 text-primary"/>QR Studio
+                            <span class="badge text-bg-primary ms-1 align-middle o_isd_qr_badge">PRO</span>
+                        </h1>
+                        <p class="text-muted mb-0">Tạo mã QR thời gian thực, tải Vector SVG &amp; PNG siêu nét, lưu vào thư viện để dùng lại.</p>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-secondary" t-on-click="newCode"><i class="fa fa-plus me-1"/>Mã mới</button>
+                        <button class="btn btn-secondary" t-on-click="openLibrary"><i class="fa fa-th-large me-1"/>Thư viện</button>
+                    </div>
+                </div>
+
+                <div class="o_isd_qr_grid">
+                    <!-- ============ Cột trái: nội dung + kiểu dáng ============ -->
+                    <section class="o_isd_qr_card">
+                        <nav class="o_isd_qr_tabs" role="tablist">
+                            <t t-foreach="types" t-as="type" t-key="type.value">
+                                <button type="button" role="tab"
+                                        t-att-class="{'o_isd_qr_tab': true, 'active': state.form.qr_type === type.value}"
+                                        t-att-aria-selected="state.form.qr_type === type.value ? 'true' : 'false'"
+                                        t-on-click="() => this.setType(type.value)">
+                                    <i t-att-class="'fa ' + type.icon"/>
+                                    <span t-esc="type.label"/>
+                                </button>
+                            </t>
+                        </nav>
+
+                        <div class="o_isd_qr_pane">
+                            <t t-set="f" t-value="state.form"/>
+                            <t t-if="f.qr_type === 'link'">
+                                <div class="d-flex justify-content-between">
+                                    <label class="form-label" for="isd_qr_url">Dán đường dẫn (URL) cần tạo mã QR:</label>
+                                    <small class="text-muted"><t t-esc="payload.length"/> ký tự</small>
+                                </div>
+                                <textarea id="isd_qr_url" class="form-control" rows="3" placeholder="https://example.com/san-pham"
+                                          t-att-value="f.url" t-on-input="(ev) => this.onInput('url', ev)"/>
+                                <small class="text-muted">Mẹo: thêm <code>?utm_source=qr_print</code> để đo lượt quét trong Google Analytics.</small>
+                            </t>
+                            <t t-elif="f.qr_type === 'text'">
+                                <div class="d-flex justify-content-between">
+                                    <label class="form-label" for="isd_qr_text">Nhập đoạn văn bản hoặc ghi chú:</label>
+                                    <small class="text-muted"><t t-esc="payload.length"/> ký tự</small>
+                                </div>
+                                <textarea id="isd_qr_text" class="form-control" rows="4" placeholder="Nhập nội dung bất kỳ tại đây..."
+                                          t-att-value="f.text" t-on-input="(ev) => this.onInput('text', ev)"/>
+                            </t>
+                            <t t-elif="f.qr_type === 'wifi'">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Tên mạng Wi-Fi (SSID):</label>
+                                        <input class="form-control" placeholder="MyCoffee_5G" t-att-value="f.wifi_ssid"
+                                               t-on-input="(ev) => this.onInput('wifi_ssid', ev)"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Mật khẩu Wi-Fi:</label>
+                                        <input class="form-control" placeholder="pass123456" t-att-value="f.wifi_password"
+                                               t-att-disabled="f.wifi_auth === 'nopass'"
+                                               t-on-input="(ev) => this.onInput('wifi_password', ev)"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Chuẩn mã hoá:</label>
+                                        <select class="form-select" t-on-change="(ev) => this.onInput('wifi_auth', ev)">
+                                            <t t-foreach="wifiAuthOptions" t-as="opt" t-key="opt.value">
+                                                <option t-att-value="opt.value" t-att-selected="f.wifi_auth === opt.value" t-esc="opt.label"/>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 d-flex align-items-end">
+                                        <div class="form-check mb-2">
+                                            <input type="checkbox" class="form-check-input" id="isd_qr_wifi_hidden"
+                                                   t-att-checked="f.wifi_hidden" t-on-change="(ev) => this.onInput('wifi_hidden', ev)"/>
+                                            <label class="form-check-label" for="isd_qr_wifi_hidden">Mạng Wi-Fi bị ẩn (Hidden SSID)</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-elif="f.qr_type === 'vcard'">
+                                <div class="row g-3">
+                                    <t t-foreach="[
+                                        ['vcard_first_name', 'Tên:', 'Nam'],
+                                        ['vcard_last_name', 'Họ &amp; tên đệm:', 'Nguyễn Văn'],
+                                        ['vcard_phone', 'Số điện thoại:', '+84 901 234 567'],
+                                        ['vcard_email', 'Email:', 'nam.nguyen@company.com'],
+                                        ['vcard_organization', 'Công ty / Tổ chức:', 'IntelliSyncData'],
+                                        ['vcard_title', 'Chức vụ / Nghề nghiệp:', 'Product Designer'],
+                                        ['vcard_website', 'Website:', 'https://intellisyncdata.com'],
+                                        ['vcard_address', 'Địa chỉ:', 'Quận 1, TP. Hồ Chí Minh'],
+                                    ]" t-as="item" t-key="item[0]">
+                                        <div class="col-md-6">
+                                            <label class="form-label" t-esc="item[1]"/>
+                                            <input class="form-control" t-att-placeholder="item[2]" t-att-value="f[item[0]]"
+                                                   t-on-input="(ev) => this.onInput(item[0], ev)"/>
+                                        </div>
+                                    </t>
+                                </div>
+                            </t>
+                            <t t-elif="f.qr_type === 'email'">
+                                <label class="form-label">Email người nhận:</label>
+                                <input class="form-control mb-3" type="email" placeholder="contact@example.com" t-att-value="f.email_to"
+                                       t-on-input="(ev) => this.onInput('email_to', ev)"/>
+                                <label class="form-label">Tiêu đề thư:</label>
+                                <input class="form-control mb-3" placeholder="Hỗ trợ thông tin dịch vụ" t-att-value="f.email_subject"
+                                       t-on-input="(ev) => this.onInput('email_subject', ev)"/>
+                                <label class="form-label">Nội dung thư:</label>
+                                <textarea class="form-control" rows="3" placeholder="Xin chào, tôi cần tư vấn về..." t-att-value="f.email_body"
+                                          t-on-input="(ev) => this.onInput('email_body', ev)"/>
+                            </t>
+                            <t t-elif="f.qr_type === 'phone'">
+                                <label class="form-label">Số điện thoại liên hệ:</label>
+                                <input class="form-control" type="tel" placeholder="+84 987 654 321" t-att-value="f.phone"
+                                       t-on-input="(ev) => this.onInput('phone', ev)"/>
+                            </t>
+                            <t t-elif="f.qr_type === 'sms'">
+                                <label class="form-label">Số điện thoại nhận:</label>
+                                <input class="form-control mb-3" type="tel" placeholder="+84 987 654 321" t-att-value="f.phone"
+                                       t-on-input="(ev) => this.onInput('phone', ev)"/>
+                                <label class="form-label">Nội dung tin nhắn:</label>
+                                <textarea class="form-control" rows="3" placeholder="Tôi muốn đăng ký..." t-att-value="f.sms_message"
+                                          t-on-input="(ev) => this.onInput('sms_message', ev)"/>
+                            </t>
+                        </div>
+
+                        <div class="o_isd_qr_privacy">
+                            <i class="fa fa-shield me-2"/>
+                            Mã QR được sinh ngay trên trình duyệt. Chỉ khi bấm Lưu (hoặc tải xuống) nội dung mới được lưu vào thư viện Odoo của bạn.
+                        </div>
+
+                        <hr/>
+                        <h3 class="o_isd_qr_subheading"><i class="fa fa-paint-brush me-2"/>Tuỳ chỉnh màu sắc</h3>
+                        <div class="row g-3">
+                            <t t-foreach="[['fg_color', 'Màu mã (Foreground)'], ['bg_color', 'Màu nền (Background)']]" t-as="c" t-key="c[0]">
+                                <div class="col-6">
+                                    <div class="o_isd_qr_color_card">
+                                        <label class="form-label small text-muted mb-1" t-esc="c[1]"/>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <input type="color" class="o_isd_qr_color_input" t-att-value="state.style[c[0]]"
+                                                   t-on-input="(ev) => this.onStyle(c[0], ev)"/>
+                                            <input class="form-control form-control-sm font-monospace" maxlength="7"
+                                                   t-att-value="state.style[c[0]].toUpperCase()"
+                                                   t-on-change="(ev) => this.onStyle(c[0], ev)"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                        <div class="o_isd_qr_presets">
+                            <span class="small text-muted me-1">Mẫu màu:</span>
+                            <t t-foreach="presets" t-as="preset" t-key="preset.name">
+                                <button type="button" t-att-class="{'o_isd_qr_preset': true, 'active': isPresetActive(preset)}"
+                                        t-att-title="preset.name" t-on-click="() => this.applyPreset(preset)">
+                                    <span class="o_isd_qr_swatch" t-attf-style="background: {{preset.bg}}; border-color: {{preset.fg}};">
+                                        <span t-attf-style="background: {{preset.fg}};"/>
+                                    </span>
+                                    <span t-esc="preset.name"/>
+                                </button>
+                            </t>
+                        </div>
+                        <div t-if="lowContrast" class="alert alert-warning py-2 small mt-2" role="alert">
+                            Độ tương phản thấp — nhiều camera sẽ khó quét. Nên dùng mã tối trên nền sáng.
+                        </div>
+                        <div t-elif="inverted" class="alert alert-info py-2 small mt-2" role="status">
+                            Mã sáng trên nền tối: phần lớn điện thoại đời mới quét được, nhưng một số máy quét cũ thì không.
+                        </div>
+
+                        <hr/>
+                        <h3 class="o_isd_qr_subheading"><i class="fa fa-sliders me-2"/>Cài đặt nâng cao</h3>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Mức sửa lỗi (ECC):</label>
+                                <select class="form-select" t-on-change="(ev) => this.onStyle('ecc_level', ev)">
+                                    <t t-foreach="eccOptions" t-as="opt" t-key="opt.value">
+                                        <option t-att-value="opt.value" t-att-selected="state.style.ecc_level === opt.value" t-esc="opt.label"/>
+                                    </t>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Viền an toàn (Quiet Zone):</label>
+                                <select class="form-select" t-on-change="(ev) => this.onStyle('margin', ev)">
+                                    <t t-foreach="marginOptions" t-as="opt" t-key="opt.value">
+                                        <option t-att-value="opt.value" t-att-selected="state.style.margin === opt.value" t-esc="opt.label"/>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="o_isd_qr_logo_box">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="o_isd_qr_logo_thumb">
+                                    <img t-if="state.logoDataUrl" t-att-src="state.logoDataUrl" alt="Logo"/>
+                                    <i t-else="" class="fa fa-picture-o text-muted"/>
+                                </div>
+                                <div>
+                                    <div class="fw-semibold">Chèn logo thương hiệu</div>
+                                    <small class="text-muted">Tự động đục lỗ giữa mã. Nên dùng ECC High (30%).</small>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <label class="btn btn-secondary btn-sm mb-0">
+                                    <i class="fa fa-upload me-1"/><t t-esc="state.logoDataUrl ? 'Đổi logo' : 'Tải logo'"/>
+                                    <input type="file" accept="image/*" class="d-none" t-on-change="onLogoChange"/>
+                                </label>
+                                <button t-if="state.logoDataUrl" type="button" class="btn btn-link btn-sm text-danger"
+                                        t-on-click="removeLogo">Gỡ</button>
+                            </div>
+                        </div>
+                        <div t-if="logoNeedsHighEcc" class="alert alert-warning py-2 small mt-2" role="alert">
+                            Có logo nhưng mức sửa lỗi đang thấp — mã có thể không quét được. Chọn Quartile hoặc High.
+                        </div>
+                    </section>
+
+                    <!-- ============ Cột phải: preview + xuất file ============ -->
+                    <aside class="o_isd_qr_card o_isd_qr_preview_card">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span class="fw-semibold"><span class="o_isd_qr_live_dot"/>Xem trước</span>
+                            <small class="text-muted" t-if="state.recordId">
+                                <a href="#" t-on-click.prevent="openRecord"><i class="fa fa-external-link me-1"/>Mở bản ghi</a>
+                            </small>
+                        </div>
+                        <t t-set="pv" t-value="this.preview"/>
+                        <div class="o_isd_qr_stage">
+                            <t t-if="pv.svg"><t t-out="pv.svg"/></t>
+                            <div t-elif="pv.error" class="text-center text-danger p-4">
+                                <i class="fa fa-exclamation-triangle fa-2x mb-2"/>
+                                <div>Nội dung quá dài để mã hoá thành QR. Hãy rút gọn hoặc giảm mức sửa lỗi.</div>
+                            </div>
+                            <div t-else="" class="text-center text-muted p-4">
+                                <i class="fa fa-qrcode fa-4x mb-2 opacity-25"/>
+                                <div>Nhập nội dung để tạo mã QR.</div>
+                            </div>
+                        </div>
+
+                        <label class="form-label mt-3 mb-1">Tên mã QR</label>
+                        <input class="form-control" t-att-placeholder="defaultName" t-att-value="state.name"
+                               t-on-input="onNameInput"/>
+
+                        <label class="form-label mt-3 mb-1">Kích thước PNG</label>
+                        <select class="form-select" t-on-change="(ev) => this.onStyle('png_size', ev)">
+                            <t t-foreach="sizeOptions" t-as="opt" t-key="opt.value">
+                                <option t-att-value="opt.value" t-att-selected="state.style.png_size === opt.value" t-esc="opt.label"/>
+                            </t>
+                        </select>
+
+                        <div class="d-grid gap-2 mt-3">
+                            <button class="btn btn-primary" t-att-disabled="!pv.svg" t-on-click="onDownloadPng">
+                                <i class="fa fa-download me-1"/>Tải PNG chất lượng cao
+                            </button>
+                            <button class="btn btn-secondary" t-att-disabled="!pv.svg" t-on-click="onDownloadSvg">
+                                <i class="fa fa-download me-1"/>Tải Vector SVG
+                            </button>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-secondary flex-fill" t-att-disabled="!pv.svg" t-on-click="onCopy">
+                                    <i class="fa fa-clipboard me-1"/>Copy ảnh
+                                </button>
+                                <button class="btn btn-secondary flex-fill" t-att-disabled="!pv.svg" t-on-click="onPrint">
+                                    <i class="fa fa-print me-1"/>In
+                                </button>
+                            </div>
+                            <button class="btn btn-outline-primary" t-att-disabled="!pv.svg || state.saving"
+                                    t-on-click="() => this.save()">
+                                <i t-att-class="'fa me-1 ' + (state.saving ? 'fa-spinner fa-spin' : 'fa-floppy-o')"/>
+                                <t t-esc="state.recordId ? (state.dirty ? 'Lưu thay đổi' : 'Đã lưu') : 'Lưu vào thư viện'"/>
+                            </button>
+                        </div>
+                    </aside>
+                </div>
+
+                <!-- ============ Lịch sử + hướng dẫn ============ -->
+                <div class="o_isd_qr_grid o_isd_qr_bottom">
+                    <section class="o_isd_qr_card">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <h3 class="o_isd_qr_subheading mb-0"><i class="fa fa-history me-2"/>Mã gần đây của bạn</h3>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-link btn-sm" t-on-click="openLibrary">Xem tất cả</button>
+                                <button t-if="state.history.length" class="btn btn-link btn-sm text-danger" t-on-click="clearHistory">Dọn lịch sử</button>
+                            </div>
+                        </div>
+                        <div t-if="!state.history.length" class="text-muted small py-3">
+                            Chưa có mã nào. Mã sẽ tự lưu khi bạn tải PNG/SVG hoặc bấm "Lưu vào thư viện".
+                        </div>
+                        <ul t-else="" class="list-unstyled o_isd_qr_history mb-0">
+                            <t t-foreach="state.history" t-as="item" t-key="item.id">
+                                <li t-att-class="{'active': item.id === state.recordId}">
+                                    <i t-att-class="'fa fa-fw ' + typeIcon(item.qr_type) + ' text-primary'"/>
+                                    <div class="flex-grow-1 overflow-hidden">
+                                        <div class="fw-semibold text-truncate" t-esc="item.name"/>
+                                        <small class="text-muted text-truncate d-block">
+                                            <t t-esc="typeLabel(item.qr_type)"/> · <t t-esc="shortPayload(item.payload)"/> · <t t-esc="timeAgo(item.write_date)"/>
+                                        </small>
+                                    </div>
+                                    <button class="btn btn-sm btn-secondary" t-on-click="() => this.reuse(item)">Dùng lại</button>
+                                    <button class="btn btn-sm btn-link text-danger" title="Xoá" t-on-click="() => this.deleteItem(item)">
+                                        <i class="fa fa-trash"/>
+                                    </button>
+                                </li>
+                            </t>
+                        </ul>
+                    </section>
+                    <section class="o_isd_qr_card">
+                        <h3 class="o_isd_qr_subheading"><i class="fa fa-lightbulb-o me-2"/>Tối ưu mã QR cho Marketing &amp; In ấn</h3>
+                        <div class="o_isd_qr_guide">
+                            <h4>1. Chọn PNG hay SVG?</h4>
+                            <p>PNG phù hợp website, banner mạng xã hội, Word/PowerPoint. SVG là vector chuẩn in ấn (băng rôn, standee, bao bì) — phóng to vô hạn không vỡ hạt.</p>
+                            <h4>2. Bí quyết quét siêu tốc</h4>
+                            <p>Giữ tương phản cao giữa màu mã và màu nền. Mã tối trên nền sáng (đen trên trắng) luôn an toàn nhất với mọi camera.</p>
+                            <h4>3. Đo lượt quét với mã QR tĩnh</h4>
+                            <p>Mã QR tĩnh không đổi link được, nhưng có thể gắn tham số UTM (vd. <code>?utm_source=qr_print</code>) trước khi tạo mã để theo dõi trong Google Analytics.</p>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>

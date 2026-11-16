@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="isd_qr_code.QrCodeField">
+        <div class="o_isd_qr_field">
+            <t t-set="pv" t-value="this.preview"/>
+            <t t-if="pv.svg">
+                <div class="o_isd_qr_field_stage" t-attf-style="width: {{props.size}}px;">
+                    <t t-out="pv.svg"/>
+                </div>
+                <div t-if="props.downloadable">
+                    <button type="button" class="btn btn-link btn-sm px-0" t-on-click="onDownload">
+                        <i class="fa fa-download me-1"/>Tải PNG
+                    </button>
+                </div>
+            </t>
+            <span t-elif="pv.error" class="text-danger small">Nội dung quá dài để tạo mã QR.</span>
+            <span t-else="" class="text-muted small">Chưa có nội dung</span>
+        </div>
+    </t>
+
+    <t t-name="isd_qr_code.QrPreviewField">
+        <div class="o_isd_qr_field text-center">
+            <t t-set="pv" t-value="this.preview"/>
+            <t t-if="pv.svg">
+                <div class="o_isd_qr_field_stage" style="width: 280px; max-width: 100%;">
+                    <t t-out="pv.svg"/>
+                </div>
+                <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
+                    <button type="button" class="btn btn-primary btn-sm" t-on-click="onDownloadPng">
+                        <i class="fa fa-download me-1"/>PNG <t t-esc="data.png_size"/>px
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm" t-on-click="onDownloadSvg">
+                        <i class="fa fa-download me-1"/>SVG
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm" t-on-click="onCopy">
+                        <i class="fa fa-clipboard me-1"/>Copy
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm" t-on-click="onPrint">
+                        <i class="fa fa-print me-1"/>In
+                    </button>
+                </div>
+            </t>
+            <div t-elif="pv.error" class="text-danger p-4">
+                <i class="fa fa-exclamation-triangle fa-2x mb-2"/>
+                <div>Nội dung quá dài để mã hoá thành QR. Hãy rút gọn hoặc giảm mức sửa lỗi.</div>
+            </div>
+            <div t-else="" class="text-muted p-4">
+                <i class="fa fa-qrcode fa-4x mb-2 opacity-25"/>
+                <div>Nhập nội dung để xem trước mã QR.</div>
+            </div>
+        </div>
+    </t>
+
+</templates>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_root" name="ISD Tools" action="action_hub" sequence="950"
+              web_icon="isd_tool,static/description/icon.png" groups="base.group_user"/>
+    <menuitem id="menu_hub" name="All Tools" parent="menu_root" action="action_hub" sequence="1"/>
+    <menuitem id="menu_config" name="Configuration" parent="menu_root" sequence="90" groups="base.group_system"/>
+    <menuitem id="menu_tool" name="Tools" parent="menu_config" action="action_tool" sequence="1"/>
+    <menuitem id="menu_tool_category" name="Categories" parent="menu_config" action="action_tool_category" sequence="2"/>
+</odoo>
