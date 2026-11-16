@@ -229,6 +229,14 @@ class IsdLayoutType(models.Model):
             dict(frame, layout_type_id=self.id) for frame in self._sample_frames()])
         return True
 
+    def action_download_svg(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_url',
+            'url': '/isd_layout_builder/layout/%s/svg' % self.id,
+            'target': 'download',
+        }
+
     def action_download_png(self):
         self.ensure_one()
         return {

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-16 15:06+0000\n"
-"PO-Revision-Date: 2026-11-16 15:06+0000\n"
+"POT-Creation-Date: 2026-11-16 15:22+0000\n"
+"PO-Revision-Date: 2026-11-16 15:22+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -219,6 +219,11 @@ msgstr "Tên hiển thị"
 #: model_terms:ir.ui.view,arch_db:isd_layout_builder.view_isd_layout_type_form
 msgid "Download PNG"
 msgstr "Tải PNG"
+
+#. module: isd_layout_builder
+#: model_terms:ir.ui.view,arch_db:isd_layout_builder.view_isd_layout_type_form
+msgid "Download SVG"
+msgstr "Tải SVG"
 
 #. module: isd_layout_builder
 #. odoo-javascript
