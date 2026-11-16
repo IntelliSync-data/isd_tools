@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-11 14:36+0000\n"
-"PO-Revision-Date: 2026-11-11 14:36+0000\n"
+"POT-Creation-Date: 2026-11-16 14:01+0000\n"
+"PO-Revision-Date: 2026-11-16 14:01+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -61,6 +61,11 @@ msgstr "Người tạo"
 #: model:ir.model.fields,field_description:isd_tool.field_isd_tool_link__create_date
 msgid "Created on"
 msgstr "Ngày tạo"
+
+#. module: isd_tool
+#: model:isd.tool.category,name:isd_tool.category_data_api
+msgid "Data & API"
+msgstr "Dữ liệu & API"
 
 #. module: isd_tool
 #: model:ir.model.fields,field_description:isd_tool.field_isd_tool__description

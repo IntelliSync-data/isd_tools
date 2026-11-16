@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Thẻ trong app ISD Tools, thay cho menu app "External API" riêng -->
+    <record id="isd_tool_api_builder" model="isd.tool">
+        <field name="name">API Builder</field>
+        <field name="description">Kết nối PostgreSQL ngoài (AWS/EC2), duyệt schema và tạo REST API từ SQL hoặc ORM</field>
+        <field name="icon" type="base64" file="isd_api_builder/static/description/icon.png"/>
+        <field name="category_id" ref="isd_tool.category_data_api"/>
+        <field name="sequence">10</field>
+        <field name="action_id" ref="action_extapi_endpoint"/>
+        <field name="group_ids" eval="[(6, 0, [ref('group_extapi_admin')])]"/>
+    </record>
+    <record id="isd_tool_api_builder_link_generator" model="isd.tool.link">
+        <field name="tool_id" ref="isd_tool_api_builder"/>
+        <field name="name">API Generator</field>
+        <field name="sequence">1</field>
+        <field name="action_id" ref="action_extapi_generator_wizard"/>
+    </record>
+    <record id="isd_tool_api_builder_link_schema" model="isd.tool.link">
+        <field name="tool_id" ref="isd_tool_api_builder"/>
+        <field name="name">Schema Browser</field>
+        <field name="sequence">2</field>
+        <field name="action_id" ref="action_extdb_schema_cache"/>
+    </record>
+    <record id="isd_tool_api_builder_link_logs" model="isd.tool.link">
+        <field name="tool_id" ref="isd_tool_api_builder"/>
+        <field name="name">API Logs</field>
+        <field name="sequence">3</field>
+        <field name="action_id" ref="action_extapi_log"/>
+    </record>
+    <record id="isd_tool_api_builder_link_settings" model="isd.tool.link">
+        <field name="tool_id" ref="isd_tool_api_builder"/>
+        <field name="name">Cài đặt kết nối</field>
+        <field name="sequence">4</field>
+        <field name="action_id" ref="action_extapi_settings"/>
+        <field name="group_ids" eval="[(6, 0, [ref('base.group_system')])]"/>
+    </record>
+</odoo>

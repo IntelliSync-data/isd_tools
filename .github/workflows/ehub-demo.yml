@@ -35,7 +35,7 @@
             # Sync isd_tools directory with rsync (including deletion) 
             # Using loop to sync each module separately, dont sync the 
             # whole isd_tools directory like bloompod, kclick, vfo  
-            for mod in isd_tool isd_qr_code; do
+            for mod in isd_tool isd_qr_code isd_api_builder; do
               sudo mkdir -p /opt/custom-addons/$mod
               sudo rsync -av --delete \
                 --exclude='views/menu_items_override.xml.*' \
@@ -58,7 +58,7 @@
             fi
 
             echo "Updating isd_tools module..."
-            sudo -u odoo /opt/odoo-venv/bin/python /opt/odoo18/odoo-bin -c /etc/odoo/odoo.conf -d ${{ secrets.EHUB_DB_NAME }} -u isd_tool,isd_qr_code --stop-after-init --no-http
+            sudo -u odoo /opt/odoo-venv/bin/python /opt/odoo18/odoo-bin -c /etc/odoo/odoo.conf -d ${{ secrets.EHUB_DB_NAME }} -u isd_tool,isd_qr_code,isd_api_builder --stop-after-init --no-http
             if [ $? -ne 0 ]; then
               echo "Module update FAILED"
               exit 1
