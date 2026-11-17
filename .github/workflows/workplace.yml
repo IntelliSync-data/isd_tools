@@ -3,7 +3,7 @@
   on:
     push:
       branches:
-        - ehub
+        - workplace
 
   jobs:
     update:
