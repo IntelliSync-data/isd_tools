@@ -22,13 +22,13 @@
           script_stop: true
           script: |
             # Clone if not exists, otherwise update
-            if [ ! -d /home/ubuntu/odoo18/addons/isd_tools ]; then
-              sudo mkdir -p /home/ubuntu/odoo18/addons
-              sudo -u ubuntu git clone git@github-odoo:IntelliSync-data/isd_tools.git /home/ubuntu/odoo18/addons/isd_tools
-              cd /home/ubuntu/odoo18/addons/isd_tools && git checkout workplace
+            REPO_URL=https://github.com/IntelliSync-data/isd_tools.git
+            if [ ! -d /home/ubuntu/odoo18/addons/isd_tools/.git ]; then
+              mkdir -p /home/ubuntu/odoo18/addons
+              git clone --branch workplace "$REPO_URL" /home/ubuntu/odoo18/addons/isd_tools
             else
               # ubuntu only have permission to run git commands
-              sudo -u ubuntu bash -c "cd /home/ubuntu/odoo18/addons/isd_tools && git fetch origin && git reset --hard origin/workplace" 
+              sudo -u ubuntu bash -c "cd /home/ubuntu/odoo18/addons/isd_tools && git remote set-url origin $REPO_URL && git fetch origin && git reset --hard origin/workplace"
             fi
 
             # Sync isd_tools directory with rsync (including deletion) 
@@ -45,9 +45,9 @@
       - name: Update isd_tools Module
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.EHUB_HOST }}
-          username: ${{ secrets.EHUB_USERNAME }}
-          key: ${{ secrets.EHUB_SSH_KEY }}
+          host: ${{ secrets.WORKPLACE_HOST }}
+          username: ${{ secrets.WORKPLACE_USERNAME }}
+          key: ${{ secrets.WORKPLACE_SSH_KEY }}
           script: |
             echo "Updating apps list..."
             echo "env['ir.module.module'].update_list(); env.cr.commit()" | sudo -u ubuntu /home/ubuntu/odoo-venv/bin/python /home/ubuntu/odoo18/odoo-bin shell -c /etc/odoo/odoo.conf -d ${{ secrets.WORKPLACE_DB_NAME }} --no-http
